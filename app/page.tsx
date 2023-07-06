@@ -71,7 +71,7 @@ export default function Home() {
           </div>
           {randomFilm && (
               <div className={"mb-10 text-center"}>
-                  <h2>Ce soir, on regarde :</h2>
+                  <h2>Ce soir, on regarde</h2>
                   <p className={"font-medium text-xl mt-3"}>{randomFilm.title}</p>
                   <div className={"text-slate-600 text-md"}>{randomFilm.year}</div>
               </div>
