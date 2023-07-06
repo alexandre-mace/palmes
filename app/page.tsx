@@ -4,7 +4,6 @@ import Image from 'next/image'
 import {useEffect, useState} from "react";
 import filmsPalmeDOr from './../domain/movies.json'
 import JSConfetti from 'js-confetti'
-const jsConfetti = new JSConfetti()
 
 interface Movie {
     title: string,
@@ -54,6 +53,7 @@ export default function Home() {
         if (unseenFilms.length > 0) {
             const randomIndex = Math.floor(Math.random() * unseenFilms.length);
             setRandomFilm(unseenFilms[randomIndex]);
+            const jsConfetti = new JSConfetti()
             jsConfetti.addConfetti({
                 emojis: ['🎬', '🍿', '📽️', '🎞️', '📀', '🕴️', '🎥'],
             })
