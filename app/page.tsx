@@ -17,14 +17,14 @@ export default function Home() {
     const [randomFilm, setRandomFilm] = useState<Movie|null>(null);
 
     useEffect(() => {
-        const storedWatchedFilms = JSON.parse(localStorage.getItem('watchedFilms') || '{}')
+        const storedWatchedFilms = JSON.parse(localStorage.getItem('watchedFilms') || '[]')
         if (storedWatchedFilms) {
             setWatchedFilms(storedWatchedFilms);
         }
 
         const films = filmsPalmeDOr.map(film => ({
             ...film,
-            watched: storedWatchedFilms.includes(film.title)
+            watched: (storedWatchedFilms).includes(film.title)
         }));
         setFilmList(films);
     }, []);
