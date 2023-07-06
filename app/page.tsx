@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import filmsPalmeDOr from './../domain/movies.json'
 import JSConfetti from 'js-confetti'
 
@@ -15,8 +15,10 @@ export default function Home() {
     const [filmList, setFilmList] = useState<Movie[]>([]);
     const [watchedFilms, setWatchedFilms] = useState<string[]>([]);
     const [randomFilm, setRandomFilm] = useState<Movie|null>(null);
+    const jsConfettiRef = useRef<JSConfetti>()
 
     useEffect(() => {
+        jsConfettiRef.current = new JSConfetti()
         const storedWatchedFilms = JSON.parse(localStorage.getItem('watchedFilms') || '[]')
         if (storedWatchedFilms) {
             setWatchedFilms(storedWatchedFilms);
@@ -53,10 +55,11 @@ export default function Home() {
         if (unseenFilms.length > 0) {
             const randomIndex = Math.floor(Math.random() * unseenFilms.length);
             setRandomFilm(unseenFilms[randomIndex]);
-            const jsConfetti = new JSConfetti()
-            jsConfetti.addConfetti({
-                emojis: ['🎬', '🍿', '📽️', '🎞️', '📀', '🕴️', '🎥'],
-            })
+            if (jsConfettiRef.current) {
+                jsConfettiRef.current.addConfetti({
+                    emojis: ['🎬', '🍿', '📽️', '🎞️', '📀', '🕴️', '🎥'],
+                })
+            }
         } else {
             setRandomFilm(null);
         }
@@ -78,10 +81,10 @@ export default function Home() {
           )}
         <ul className={"grid grid-cols-2 md:grid-cols-5 gap-3"}>
           {filmList.map(film => (
-              <li key={film.title} className={"bg-slate-100 p-4 rounded-xl text-center"}>
+              <li key={film.title} className={"bg-slate-100 p-4 flex flex-col rounded-xl text-center"}>
                   <div>{film.title}</div>
                   <div className={"text-slate-600 text-sm mb-2"}>{film.year}</div>
-                  <div className={"text-center"}>
+                  <div className={"text-center mt-auto"}>
                       {film.watched &&
                           <button onClick={() => toggleFilmWatched(film.title)} className={"inline-flex items-center justify-center text-sm rounded-md font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-slate-700 text-white hover:bg-black/90 h-7 px-3 py-1"}>
                               Vu 👀
